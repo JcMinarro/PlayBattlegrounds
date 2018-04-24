@@ -19,6 +19,7 @@ import android.app.Application
 import android.content.Context
 import es.voghdev.playbattlegrounds.common.reslocator.AndroidResLocator
 import es.voghdev.playbattlegrounds.common.reslocator.ResLocator
+import es.voghdev.playbattlegrounds.features.players.api.request.GetPlayerByNameApiDataSource
 import es.voghdev.playbattlegrounds.features.players.mock.GetPlayerByNameMockDataSource
 import es.voghdev.playbattlegrounds.features.players.usecase.GetPlayerByName
 import org.kodein.di.Kodein
@@ -28,9 +29,7 @@ import org.kodein.di.generic.singleton
 
 class App : Application(), KodeinAware {
     override val kodein = Kodein {
-        bind<GetPlayerByName>() with singleton { GetPlayerByNameMockDataSource() }
+        bind<GetPlayerByName>() with singleton { GetPlayerByNameApiDataSource() }
         bind<ResLocator>() with singleton { AndroidResLocator(applicationContext) }
     }
 }
-
-fun Context.asApp(): App = this.applicationContext as App

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import com.appandweb.peep.ui.activity.BaseActivity
 import es.voghdev.playbattlegrounds.R
-import es.voghdev.playbattlegrounds.common.asApp
 import es.voghdev.playbattlegrounds.common.reslocator.ResLocator
 import es.voghdev.playbattlegrounds.common.ui.ColoredSnackbar
 import es.voghdev.playbattlegrounds.features.players.ui.presenter.PlayerSearchPresenter
@@ -14,10 +13,11 @@ import kotlinx.android.synthetic.main.activity_player_search.*
 import kotlinx.coroutines.experimental.runBlocking
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 
 class PlayerSearchActivity : BaseActivity(), KodeinAware, PlayerSearchPresenter.MVPView, PlayerSearchPresenter.Navigator {
-    override val kodein: Kodein by lazy { applicationContext.asApp().kodein }
+    override val kodein: Kodein by closestKodein()
 
     val getPlayerByNameDataSource: GetPlayerByName by instance()
     val resLocator: ResLocator by instance()
@@ -35,7 +35,7 @@ class PlayerSearchActivity : BaseActivity(), KodeinAware, PlayerSearchPresenter.
             presenter?.initialize()
         }
 
-        rootView.setOnClickListener {
+        rootView?.setOnClickListener {
             presenter?.onSendButtonClicked("some_player")
         }
     }
