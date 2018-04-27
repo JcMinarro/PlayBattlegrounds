@@ -18,12 +18,15 @@ package es.voghdev.playbattlegrounds.features.players.ui.presenter
 import com.appandweb.weevento.ui.presenter.Presenter
 import es.voghdev.playbattlegrounds.common.Fail
 import es.voghdev.playbattlegrounds.common.Ok
+import es.voghdev.playbattlegrounds.common.di.ApiModule
 import es.voghdev.playbattlegrounds.common.reslocator.ResLocator
 import es.voghdev.playbattlegrounds.features.players.usecase.GetPlayerByName
 import org.jetbrains.anko.doAsync
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
 
 class PlayerSearchPresenter(val resLocator: ResLocator, val getPlayerByName: GetPlayerByName) :
-        Presenter<PlayerSearchPresenter.MVPView, PlayerSearchPresenter.Navigator>() {
+        Presenter<PlayerSearchPresenter.MVPView, PlayerSearchPresenter.Navigator>(), KodeinAware {
 
     override suspend fun initialize() {
 
@@ -50,6 +53,10 @@ class PlayerSearchPresenter(val resLocator: ResLocator, val getPlayerByName: Get
 
     private fun requestPlayerMatches(playerName: String) {
 
+    }
+
+    override val kodein = Kodein {
+        import(ApiModule.module)
     }
 
     interface MVPView {
