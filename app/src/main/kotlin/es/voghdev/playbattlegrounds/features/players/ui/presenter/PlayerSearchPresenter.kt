@@ -55,9 +55,13 @@ class PlayerSearchPresenter(val resLocator: ResLocator, val getPlayerByName: Get
 
     }
 
-    override val kodein = Kodein {
-        import(ApiModule.module)
+    override var kodein = Kodein {
+        modules.forEach {
+            import(it)
+        }
     }
+
+    var modules: List<Kodein.Module> = listOf(ApiModule.module)
 
     interface MVPView {
         fun showPlayerName(name: String)
